@@ -13,7 +13,7 @@ const app = express();
 mongoose.connect(config.database);
 
 // App Setup
-app.use(morgan('combined'));
+app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]'));
 app.use(bodyParser.json({ type: '*/*' }));
 
 router(app);
