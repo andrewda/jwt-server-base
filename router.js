@@ -7,8 +7,12 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
 
 module.exports = (app) => {
-	app.get('/', requireAuth, (req, res) => {
-		res.send('This is content requires authentication!');
+	app.get('/', (req, res) => {
+		res.send('This content does not require authentication.');
+	});
+
+	app.get('/secure', requireAuth, (req, res) => {
+		res.send('This content requires authentication.');
 	});
 
 	app.post('/signin', requireSignin, Authentication.signin);
