@@ -28,7 +28,7 @@ userSchema.pre('save', function(next) {
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
 	const user = this;
 
-	bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+	bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
 		if (err) { return callback(err); }
 
 		callback(null, isMatch);
