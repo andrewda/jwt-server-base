@@ -1,7 +1,7 @@
-const randomstring = require('randomstring');
+const crypto = require('crypto');
 
 module.exports = {
 	database: 'mongodb://localhost:auth/auth',
 	cookie: 'user_session',
-	secret: randomstring.generate() // regenerated everytime the app starts up
+	secret: crypto.randomBytes(256) // regenerated everytime the app starts up
 };
