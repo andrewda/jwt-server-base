@@ -14,26 +14,32 @@ exports.signin = (req, res, next) => {
 };
 
 exports.signup = (req, res, next) => {
+	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
 
-	if (!email || !password) {
+	if (!username || !email || !password) {
 		return res.status(422).send({ success: false, error: 'Missing parameters' });
 	}
 
-	// Check if given email exists
-	User.findOne({ email }, (err, existingUser) => {
+	// Check if given username exists
+	User.findOne({ $or: [{ username }, { email }] }, (err, existingUser) => {
 		if (err) { return next(err); }
 
 		// If exists, return error
-		if (existingUser) {
-			return res.status(422).send({ success: false, error: 'Email is in use' });
+		if (existingUser.username === username) {
+			return res.status(422).send({ success: false, error: 'Username already in use' });
+		}
+
+		if (existingUser.email === email) {
+			return res.status(422).send({ success: false, error: 'Email already in use' })
 		}
 
 		// If does not exist, create user and return success
 		const user = new User({
-			email: email,
-			password: password
+			username,
+			email,
+			password
 		});
 
 		user.save((err) => {

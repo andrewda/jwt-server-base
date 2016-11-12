@@ -9,12 +9,12 @@ const config = require('../config');
 
 // Setup options for Local Strategy
 const localOptions = {
-	usernameField: 'email'
+	usernameField: 'username'
 };
 
 // Create Local Strategy
-const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-	User.findOne({ email }, (err, user) => {
+const localLogin = new LocalStrategy(localOptions, (username, password, done) => {
+	User.findOne({ $or: [{ username }, { email: username }] }, (err, user) => {
 		if (err) { return done(err); }
 		if (!user) { return done(null, false); }
 
