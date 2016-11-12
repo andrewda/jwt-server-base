@@ -10,6 +10,7 @@ function tokenForUser(user) {
 }
 
 exports.signin = (req, res, next) => {
+	res.cookie(config.cookie, tokenForUser(req.user), { httpOnly: true });
 	res.send({ success: true, token: tokenForUser(req.user) });
 };
 

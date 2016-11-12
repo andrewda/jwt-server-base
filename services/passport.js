@@ -7,6 +7,16 @@ const User = require('../models/user');
 
 const config = require('../config');
 
+const cookieExtractor = function(req) {
+	var token = null;
+
+	if (req && req.cookies) {
+		token = req.cookies[config.cookie];
+	}
+
+	return token;
+};
+
 // Setup options for Local Strategy
 const localOptions = {
 	usernameField: 'username'
@@ -29,7 +39,10 @@ const localLogin = new LocalStrategy(localOptions, (username, password, done) =>
 
 // Setup options for JWT Strategy
 const jwtOptions = {
-	jwtFromRequest: ExtractJwt.fromAuthHeader(),
+	jwtFromRequest: ExtractJwt.fromExtractors([
+		ExtractJwt.fromAuthHeader(),
+		cookieExtractor
+	]),
 	secretOrKey: config.secret
 };
 
