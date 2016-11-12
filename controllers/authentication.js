@@ -27,11 +27,11 @@ exports.signup = (req, res, next) => {
 		if (err) { return next(err); }
 
 		// If exists, return error
-		if (existingUser.username === username) {
+		if (existingUser && existingUser.username === username) {
 			return res.status(422).send({ success: false, error: 'Username already in use' });
 		}
 
-		if (existingUser.email === email) {
+		if (existingUser && existingUser.email === email) {
 			return res.status(422).send({ success: false, error: 'Email already in use' })
 		}
 
