@@ -8,11 +8,11 @@ const requireSignin = passport.authenticate('local', { session: false });
 
 module.exports = (app) => {
 	app.get('/', (req, res) => {
-		res.send('This content does not require authentication.');
+		res.send({ message: 'This content does not require authentication'});
 	});
 
 	app.get('/secure', requireAuth, (req, res) => {
-		res.send('This content requires authentication.');
+		res.send({ message: 'This content requires authentication'});
 	});
 
 	app.post('/signin', requireSignin, Authentication.signin);

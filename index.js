@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const config = require('./config');
 const router = require('./router');
@@ -15,6 +16,7 @@ mongoose.connect(config.database);
 
 // App Setup
 app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]'));
+app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(cookieParser());
 
