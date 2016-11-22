@@ -23,6 +23,14 @@ exports.signup = (req, res, next) => {
 		return res.status(422).send({ success: false, error: 'Missing parameters' });
 	}
 
+	if (!/^[a-zA-Z0-9-_.]*$/.test(username)) {
+		return res.status(422).send({ success: false, error: 'Invalid username' });
+	}
+
+	if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+		return res.status(422).send({ success: false, error: 'Invalid email' });
+	}
+
 	// Check if given username exists
 	User.findOne({ $or: [{ username }, { email }] }, (err, existingUser) => {
 		if (err) { return next(err); }
